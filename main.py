@@ -1,111 +1,155 @@
-class myclass:
-    def __init__(self):
-        self.myFav = {'Paris': 500, 'NYC': 600}
-    
-    def get_extraCost(self, dist):
-        return self.myFav.get(dist, 0)
-    
-    def validThis(self, dist):
-        return type(dist) == str
+"""Module providing a Vacation Package Cost Estimator."""
 
-class passagner:
+
+class MyClass:
+    """Class representing validations"""
+    def __init__(self):
+        self.my_fav = {'Paris': 500, 'NYC': 600}
+
+    def get_extra_cost(self, dist):
+        """Getter for the extra cost."""
+        return self.my_fav.get(dist, 0)
+
+    def valid_this(self, dist):
+        """Function validating the instance."""
+        return isinstance(dist, str)
+
+
+class Passenger:
+    """Class representing passengers"""
     def __init__(self, num):
         self.num = num
-    
-    def validNumber(self):
-        print("this working here")
-        return type(self.num) == int and self.num > 0
 
-    def forHereDiscount(self):
+    def valid_number(self):
+        """Function validating the number of passengers."""
+        print("this working here")
+        return isinstance(self.num, int) and self.num > 0
+
+    def for_here_discount(self):
+        """Function validating the discount."""
         if 4 < self.num < 10:
             return 0.1
-        elif self.num <= 10:
+        elif self.num >= 10:
             return 0.2
-        #TODO: add more discount levels if needed
         else:
             return 0.0
 
-class Plane:
-    def __init__(self, dist, num, dur):
-        self.myclass = myclass()
-        self.passanger = passanger(num)
-        self.total_TIME = total_TIME(dur)
-        self.dist = dist
-        self.seats = 200
 
-    def sum(self):
-        if not self.myclass.validThis(self.dist) or not self.passanger.validNumber() or not self.total_TIME.is_valid_total_TIME():
-            return -1
-
-        numberTotal = self.costBas
-        numberTotal += self.myclass.get_extraCost(self.dist)
-        numberTotal += self.total_TIME.getFee()
-        numberTotal -= self.total_TIME.getTheBestPromoEver()
-
-        discount = self.passanger.forHereDiscount()
-        numberTotal = numberTotal - (numberTotal * discount)
-        
-        return max(int(numberTotal), 0)
-
-class total_TIME:
+class TotalTime:
+    """Class representing the total time of vacation"""
     def __init__(self, dur):
         self.dur = dur
 
-    def is_valid_total_TIME(self):
-        return type(dur)==int and self.dur > 0
+    def is_valid_total_time(self):
+        """Function validating total time."""
+        return isinstance(self.dur, int) and self.dur > 0
 
-    def getFee(self):
+    def get_fee(self):
+        """Getter for the fee."""
         return 200 if self.dur < 7 else 0
 
-    def getTheBestPromoEver(self):
+    def get_best_promo(self):
+        """Getter for the best promo."""
         return 200 if self.dur > 30 else 0
-    
-    def getWeekend(self):
+
+    def get_weekend(self):
+        """Getter for the weekend."""
         return 100 if self.dur > 7 else 0
 
-class Vacation_:
+
+class Vacation:
+    """Class representing the vacation"""
     costBas = 1000
 
     def __init__(self, dist, num, dur):
-        self.myclass = myclass()
-        self.passagner = passagner(num)
-        self.total_TIME = total_TIME(dur)
+        self.my_class = MyClass()
+        self.passenger = Passenger(num)
+        self.total_time = TotalTime(dur)
         self.dist = dist
 
     def sum(self):
-        #sum the cost of the vacation package here
-        if not self.myclass.validThis(self.dist) or not self.passagner.validNumber() or not self.total_TIME.is_valid_total_TIME():
+        """Function summing the cost of the vacation package."""
+        valid_class = self.my_class.valid_this(self.dist)
+        valid_passenger = self.passenger.valid_number()
+        valid_total_time = self.total_time.is_valid_total_time()
+        if not valid_class or not valid_passenger or not valid_total_time:
             return -1
-        
-        #sum the total cost
-        numberTotal = self.costBas
-        numberTotal += self.myclass.get_extraCost(self.dist)
-        numberTotal += self.total_TIME.getFee()
-        numberTotal -= self.total_TIME.getTheBestPromoEver()
 
-        discount = self.passagner.forHereDiscount()
-        numberTotal = numberTotal - (numberTotal * discount)
-        
-        return max(int(numberTotal), 0)
+        # sum the total cost
+        number_total = self.costBas
+        number_total += self.my_class.get_extra_cost(self.dist)
+        number_total += self.total_time.get_fee()
+        number_total -= self.total_time.get_best_promo()
 
-#this is main function
+        discount = self.passenger.for_here_discount()
+        number_total = number_total - (number_total * discount)
+
+        return max(int(number_total), 0)
+
+
+def destination_validator():
+    """Function validating the destination."""
+    valid_input = False
+    while not valid_input:
+        user_input = input("Write the destination of your vacation: ")
+
+        while not user_input.isalpha():
+            print("The destination is invalid.")
+            user_input = input("Write the destination of your vacation: ")
+
+        valid_input = True
+
+    dist = user_input
+    return dist
+
+
+def passenger_number_validator():
+    """Function validating the passenger numer."""
+    valid_input = False
+    while not valid_input:
+        user_input = input("Write the number of passengers: ")
+
+        while not user_input.isnumeric():
+            print("The number of passengers is invalid.")
+            user_input = input("Write the number of passengers: ")
+
+        valid_input = True
+
+    num = int(user_input)
+    return num
+
+
+def duration_validator():
+    """Function validating the duration of the vacation."""
+    valid_input = False
+    while not valid_input:
+        user_input = input("Write the duration of the vacation in days: ")
+
+        while not user_input.isnumeric():
+            print("The number of days is invalid.")
+            user_input = input("Write the duration of the vacation in days: ")
+
+        valid_input = True
+
+    dur = int(user_input)
+    return dur
+
+
+# this is main function
 def main():
-    #this are the inputs
-    dist = "Paris"
-    num = 5
-    dur = 10
-    seats = 400
+    """Function initializing the program."""
+    # this are the inputs
+    dist = destination_validator()
+    num = passenger_number_validator()
+    dur = duration_validator()
 
-    #this are the outputs
-    calculator = Vacation_(dist, num, dur)
+    # this are the outputs
+    calculator = Vacation(dist, num, dur)
     cost = calculator.sum()
 
-    #this will do some printing
-    if cost == -1:
-        print("Invalid input.")
-    else:
-        print(f"The total cost of the vacation package is: ${cost}")
+    print(f"The total cost of the vacation package is: ${cost}")
 
-#main event function
+
+# main event function
 if __name__ == "__main__":
     main()
